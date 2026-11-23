@@ -39,7 +39,6 @@ DOCUMENTOS = {
 }
 
 # Documentos con notas al pie: se descarta la letra más pequeña que (proporción × tamaño normal del texto).
-# Si el filtro borra texto normal, baja el número (0.8); si deja pasar notas, súbelo (0.95).
 FILTRAR_NOTAS = {
     "codigo_de_trabajo.pdf": 0.9,
     "LEY DEL SERVICIO CIVIL.pdf": 0.9,
@@ -48,7 +47,7 @@ FILTRAR_NOTAS = {
 # Línea que es solo un número de página: "12", "Página 12", "12 de 154"
 NUM_PAGINA = re.compile(r"(p[aá]gina\s*)?\d{1,3}(\s*(de|/)\s*\d{1,3})?", re.I)
 
-# Tramos de 4 o más "palabras" hechas solo de símbolos (la basura del Servicio Civil)
+# Tramos de 4 o más "palabras" hechas solo de símbolos
 SIMBOLOS = re.compile(r"(?:(?<=\s)|^)(?:[^\w\s]{1,4}\s+){3,}[^\w\s]{1,4}(?=\s|$)")
 
 

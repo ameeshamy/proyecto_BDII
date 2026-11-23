@@ -7,8 +7,7 @@ PROC = Path("data/processed")
 OUT = Path("data/chunks")
 OUT.mkdir(parents=True, exist_ok=True)
 
-# Ajusta esto cuando elijan el modelo de embeddings: los modelos cortan el texto
-# según su límite de TOKENS (y en español un token es menos que una palabra).
+# Ajusta al momento de elegir el modelo de embeddings
 MAX_PALABRAS = 150
 OVERLAP = 25
 

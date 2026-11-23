@@ -9,7 +9,7 @@ SALIDA = Path("data/chunks/chunks_limpios.json")
 PREFIJO = re.compile(r"^Art[ií]culo\.?\s+\d+(?:\s*\(continuaci[oó]n\))?\s*[.:\-–]*\s*", re.I)
 PUNTOS = re.compile(r"[.…·_]{4,}")  # puntos guía de las tablas: ………………
 CIERRE = re.compile(r"\b(?:dado en|comun[ií]quese|publicado en)\b", re.I)
-FIRMAS = re.compile(r"\s--\s?[A-ZÁÉÍÓÚÑ]{3,}")  # firmas tipo: --CECILIO CARCAMO SIERRA
+FIRMAS = re.compile(r"\s--\s?[A-ZÁÉÍÓÚÑ]{3,}") 
 ENCABEZADO = re.compile(
     r"\s((?:T[ÍI]TULO|CAP[ÍI]TULO|LIBRO|SECCI[ÓO]N)\s+"
     r"(?:[IVXLCDM]+|\d+|[ÚU]NICO|PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO)\b.*)$",
