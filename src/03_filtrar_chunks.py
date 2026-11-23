@@ -9,7 +9,7 @@ SALIDA = Path("data/chunks/chunks_limpios.json")
 PREFIJO = re.compile(r"^Art[ií]culo\.?\s+\d+(?:\s*\(continuaci[oó]n\))?\s*[.:\-–]*\s*", re.I)
 PUNTOS = re.compile(r"[.…·_]{4,}")  # puntos guía de las tablas: ………………
 CIERRE = re.compile(r"\b(?:dado en|comun[ií]quese|publicado en)\b", re.I)
-FIRMAS = re.compile(r"\s--\s?[A-ZÁÉÍÓÚÑ]{3,}") 
+FIRMAS = re.compile(r"\s--\s?[A-ZÁÉÍÓÚÑ]{3,}")  # firmas tipo: --CECILIO CARCAMO SIERRA
 ENCABEZADO = re.compile(
     r"\s((?:T[ÍI]TULO|CAP[ÍI]TULO|LIBRO|SECCI[ÓO]N)\s+"
     r"(?:[IVXLCDM]+|\d+|[ÚU]NICO|PRIMERO|SEGUNDO|TERCERO|CUARTO|QUINTO)\b.*)$",
@@ -34,16 +34,20 @@ def separar_encabezado(texto):
 
 chunks = json.loads(ENTRADA.read_text(encoding="utf-8"))
 
+def clave(c):
+    return (c["archivo"], c["documento"])  # cada decreto anexo cuenta como un documento aparte
+
+
 ultimo_art = {}
 for c in chunks:
-    ultimo_art[c["archivo"]] = max(ultimo_art.get(c["archivo"], 0), c["articulo"])
+    ultimo_art[clave(c)] = max(ultimo_art.get(clave(c), 0), c["articulo"])
 
 limpios, stats = [], Counter()
-archivo_actual, seccion_actual = None, ""
+clave_actual, seccion_actual = None, ""
 
 for c in chunks:
-    if c["archivo"] != archivo_actual:
-        archivo_actual, seccion_actual = c["archivo"], ""
+    if clave(c) != clave_actual:
+        clave_actual, seccion_actual = clave(c), ""
 
     texto = c["contenido"]
 
@@ -61,7 +65,6 @@ for c in chunks:
         stats["encabezados separados"] += 1
     if con_resto:
         stats["encabezados con texto de artículo detrás (revisar)"] += 1
-        print(f"   revisar: {c['archivo'][:25]} art. {c['articulo']}: ...{texto[-150:]}")
 
     # 3. Artículos derogados
     cuerpo = PREFIJO.sub("", texto)
@@ -70,7 +73,7 @@ for c in chunks:
         continue
 
     # 4. Cierre del documento (firmas, fecha, publicación en La Gaceta) en el último artículo
-    if c["articulo"] == ultimo_art[c["archivo"]]:
+    if c["articulo"] == ultimo_art[clave(c)]:
         pos = [m.start() for m in (CIERRE.search(texto), FIRMAS.search(texto)) if m]
         if pos:
             texto = texto[:min(pos)].rstrip()
@@ -94,10 +97,10 @@ for k, v in stats.items():
     print(f"  {k}: {v}")
 
 print("\n=== Por documento ===")
-for archivo in dict.fromkeys(c["archivo"] for c in limpios):
-    grupo = [c for c in limpios if c["archivo"] == archivo]
+for doc in dict.fromkeys(c["documento"] for c in limpios):
+    grupo = [c for c in limpios if c["documento"] == doc]
     secciones = list(dict.fromkeys(c["seccion"] for c in grupo if c["seccion"]))
-    print(f"\n{archivo}: {len(grupo)} chunks, {len(secciones)} secciones distintas")
+    print(f"\n{doc}: {len(grupo)} chunks, {len(secciones)} secciones distintas")
     for s in secciones[:4]:
         print(f"   - {s[:90]}")
     print(f"   final del último chunk: ...{grupo[-1]['contenido'][-200:]}")
