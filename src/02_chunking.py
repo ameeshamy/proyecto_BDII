@@ -7,7 +7,7 @@ PROC = Path("data/processed")
 OUT = Path("data/chunks")
 OUT.mkdir(parents=True, exist_ok=True)
 
-# Ajusta al momento de elegir el modelo de embeddings
+# Ajustar al momento de elegir el modelo de embeddings
 MAX_PALABRAS = 150
 OVERLAP = 25
 
