@@ -10,8 +10,6 @@ RAW = Path("data/raw")
 OUT = Path("data/processed")
 OUT.mkdir(parents=True, exist_ok=True)
 
-# La llave debe ser IDÉNTICA al nombre del archivo (con mayúsculas, espacios y .pdf).
-# Cambia "fuente" por la URL o institución y la fecha de consulta de cada documento.
 DOCUMENTOS = {
     "codigo_de_trabajo.pdf": {
         "documento": "Código del Trabajo",
