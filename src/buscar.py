@@ -18,7 +18,7 @@ def norm(t):
     return "".join(c for c in t if unicodedata.category(c) != "Mn")
 
 
-largo = 220  # cuántos caracteres de cada chunk se muestran en la lista
+largo = 2000  # cuántos caracteres de cada chunk se muestran en la lista (2000 = el chunk completo) # cuántos caracteres de cada chunk se muestran en la lista
 if "--largo" in sys.argv:
     k = sys.argv.index("--largo")
     largo = int(sys.argv[k + 1])
