@@ -136,16 +136,42 @@ def rellenar(camino, cands):
 
 
 def trocear(texto):
-    palabras = texto.split()
-    if len(palabras) <= MAX_PALABRAS:
+    """Parte un artículo largo en chunks de hasta MAX_PALABRAS palabras, cortando al final de una
+    oración o inciso (después de . ; :) y repitiendo al inicio del siguiente las últimas oraciones
+    (hasta OVERLAP palabras) para no perder el hilo."""
+    if len(texto.split()) <= MAX_PALABRAS:
         return [texto]
     paso = MAX_PALABRAS - OVERLAP
-    partes = []
-    for ini in range(0, len(palabras), paso):
-        partes.append(" ".join(palabras[ini:ini + MAX_PALABRAS]))
-        if ini + MAX_PALABRAS >= len(palabras):
-            break
-    return partes
+    piezas = []
+    for s in (x for x in re.split(r"(?<=[.;:])\s+", texto) if x.strip()):
+        w = s.split()
+        if len(w) > paso:  # un tramo largo sin puntuación (una tabla, por ejemplo): se corta por palabras
+            piezas.extend(" ".join(w[i:i + paso]) for i in range(0, len(w), paso))
+        else:
+            piezas.append(s)
+    chunks, actual, nuevas, n = [], [], [], 0
+    for s in piezas:
+        w = len(s.split())
+        if actual and n + w > MAX_PALABRAS:
+            chunks.append(" ".join(actual))
+            cola, m = [], 0
+            for x in reversed(actual):  # solapamiento: las últimas oraciones que quepan en OVERLAP
+                wx = len(x.split())
+                if m + wx > OVERLAP:
+                    break
+                cola.insert(0, x)
+                m += wx
+            actual, nuevas, n = cola, [], m
+        actual.append(s)
+        nuevas.append(s)
+        n += w
+    if actual:
+        # si lo que sobra es muy corto (un título suelto, una línea), se pega al chunk anterior
+        if chunks and sum(len(x.split()) for x in nuevas) < 15:
+            chunks[-1] += " " + " ".join(nuevas)
+        else:
+            chunks.append(" ".join(actual))
+    return chunks
 
 
 def limpiar_id(s):

@@ -82,6 +82,11 @@ for c in chunks:
                 stats["chunks de cierre descartados"] += 1
                 continue
 
+    # 5. Continuaciones que quedaron vacías o con solo un título (no aportan nada al buscador)
+    if c["parte"] > 1 and len(PREFIJO.sub("", texto).split()) < 8:
+        stats["continuaciones vacías o de solo un título descartadas"] += 1
+        continue
+
     c["contenido"] = texto
     c["n_palabras"] = len(texto.split())
     c["seccion"] = seccion_chunk
