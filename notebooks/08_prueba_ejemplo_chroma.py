@@ -1,10 +1,4 @@
-"""
-Pruebas comparativas en CHROMA usando las mismas 20 frases de tickets bancarios,
-las mismas 5 preguntas, el mismo modelo, la misma semilla (42) y los mismos
-20 000 vectores que los notebooks de pgvector y Qdrant.
-
-Guarda los resultados en resultados_chroma.txt en la raíz del proyecto.
-"""
+"""Pruebas comparativas en Chroma (20 frases bancarias + 20 000 vectores) -> resultados_chroma.txt."""
 import io
 import os
 import statistics

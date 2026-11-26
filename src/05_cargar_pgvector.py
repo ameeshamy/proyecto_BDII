@@ -1,28 +1,4 @@
-"""
-Actividad 4 y 5 — Diseño de esquema, carga de vectores e indexación en PostgreSQL + pgvector.
-
-Estructura de la tabla `documentos_leyes`:
-  Campos obligatorios del enunciado:
-    - id         : identificador único del registro (PK)
-    - vector     : embedding generado (vector(384), intfloat/multilingual-e5-small)
-    - contenido  : texto original del fragmento / artículo
-    - documento  : documento legal de origen
-    - categoria  : clasificación temática
-    - fuente     : procedencia de la información
-  Metadatos adicionales del dominio legal:
-    - articulo   : número de artículo
-    - pagina     : página en el PDF original
-    - parte      : número de parte si el artículo fue dividido en varios chunks
-    - seccion    : título/capítulo/sección a la que pertenece
-
-Índices creados:
-  - HNSW sobre `vector` con operador `vector_cosine_ops` (similitud del coseno)
-  - B-tree sobre `categoria` y `documento` para consultas híbridas (vector + filtro)
-
-Uso:
-    docker compose up -d pgvector
-    python src/05_cargar_pgvector.py
-"""
+"""Actividad 4 y 5: crea la tabla documentos_leyes, carga vectores e indexa con HNSW (coseno)."""
 import json
 import os
 import time

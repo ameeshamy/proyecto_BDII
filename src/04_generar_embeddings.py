@@ -1,13 +1,4 @@
-"""
-Actividad 3 — Generación de embeddings para los chunks de leyes laborales.
-
-Modelo seleccionado: intfloat/multilingual-e5-small
-- Dimensionalidad: 384
-- Límite de contexto: 512 tokens (0% de recorte en nuestros 2 216 chunks)
-- Entrenado para recuperación semántica asimétrica:
-    * Documentos/artículos llevan prefijo "passage: "
-    * Consultas del usuario llevan prefijo "query: "
-"""
+"""Actividad 3: genera embeddings (intfloat/multilingual-e5-small, 384D, 512 tokens)."""
 import json
 import time
 from pathlib import Path

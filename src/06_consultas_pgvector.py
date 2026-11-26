@@ -1,16 +1,4 @@
-"""
-Actividad 5 — Consultas vectoriales por similitud del coseno en PostgreSQL + pgvector.
-
-Usa el mismo modelo de embeddings (intfloat/multilingual-e5-small) aplicando el prefijo
-"query: " requerido para consultas en modelos E5, y calcula similitud del coseno mediante
-el operador `<=>` de pgvector (`similitud = 1 - distancia_coseno`).
-
-Ejemplos de uso:
-    python src/06_consultas_pgvector.py
-    python src/06_consultas_pgvector.py "¿Cuántos días de vacaciones le corresponden a un trabajador?"
-    python src/06_consultas_pgvector.py "¿Qué equipo de protección debe dar el patrono?" --k 5 --categoria "seguridad ocupacional"
-    python src/06_consultas_pgvector.py "¿Cómo se calcula el preaviso?" --documento "Código del Trabajo"
-"""
+"""Actividad 5: consultas semánticas por similitud del coseno en pgvector (con filtros opcionales)."""
 import argparse
 import os
 import time
