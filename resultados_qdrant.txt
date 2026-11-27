@@ -1,0 +1,44 @@
+Cargando modelo de embeddings...
+Forma de los embeddings: (20, 384)
+Base: Qdrant (1.20.0) | HNSW M=16, ef_construction=100, ef_search=64
+
+[1] Carga de 20 frases: 0.015 s
+
+[2] Aciertos y tiempos (solo la consulta a Qdrant)
+  K=3  aciertos 4/5 | min 4.8 | max 36.4 | prom 18.0 ms
+  K=5  aciertos 4/5 | min 6.0 | max 31.7 | prom 19.3 ms
+  K=10 aciertos 5/5 | min 5.1 | max 26.4 | prom 15.4 ms
+
+  Detalle (K=3):
+  FALLO alguien uso mi tarjeta sin permiso
+     Esperado: Cliente reporta fraude: transacciones no reconocidas en su tarjeta de crédito
+     0.608 | El cliente reporta que su tarjeta de débito fue rechazada en un cajero automático
+     0.602 | El cajero automático retuvo la tarjeta del cliente
+     0.586 | Consulta para cancelar una tarjeta de crédito que ha sido robada
+  OK   me quedé sin poder entrar a la banca en línea
+  OK   quiero un crédito para mi negocio
+  OK   el cajero se tragó mi tarjeta
+  OK   necesito mis estados de cuenta anteriores
+
+[3] Filtro por metadatos
+  SIN filtro:
+    0.608 | El cliente reporta que su tarjeta de débito fue rechazada en un cajero automático
+    0.602 | El cajero automático retuvo la tarjeta del cliente
+    0.586 | Consulta para cancelar una tarjeta de crédito que ha sido robada
+  CON filtro categoria=fraude:
+    0.576 | El cliente reporta una transacción que no ha realizado con su tarjeta de crédito
+    0.491 | Cliente reporta fraude: transacciones no reconocidas en su tarjeta de crédito
+    0.411 | El cliente no reconoce un cargo de $150 en su estado de cuenta
+
+[4] Carga de 20000 vectores: 4.91 s | Índice HNSW: 3.91 s (total 8.82 s)
+    Latencia con 20000 vectores: promedio 17.8 ms | p95 32.0 ms
+[5] Recall@10 (HNSW vs exacta): 60.00%
+
+================ RESUMEN QDRANT ================
+Carga 20 frases:        0.015 s
+K=3  aciertos 4/5 | tiempo min/max/prom: 4.8 / 36.4 / 18.0 ms
+K=5  aciertos 4/5 | tiempo min/max/prom: 6.0 / 31.7 / 19.3 ms
+K=10 aciertos 5/5 | tiempo min/max/prom: 5.1 / 26.4 / 15.4 ms
+Carga 20000 vectores: 4.91 s (+ índice 3.91 s)
+Latencia 20000 (prom): 17.8 ms | p95 32.0 ms
+Recall@10:              60.00%
