@@ -3,7 +3,7 @@ import argparse
 import os
 import time
 
-os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ.setdefault("HF_HUB_OFFLINE", "0")
 
 import psycopg
 from pgvector.psycopg import register_vector
@@ -80,9 +80,9 @@ def imprimir_resultados(pregunta, filas, tiempo_ms, categoria=None, documento=No
     print(f"Tiempo de consulta en pgvector: {tiempo_ms:.2f} ms | Resultados: {len(filas)}")
     print("-" * 80)
     for rank, (rid, sim, doc, cat, art, pag, texto) in enumerate(filas, start=1):
-        resumen = texto.replace("\n", " ")[:220]
+        resumen = texto.replace("\n", " ")
         print(f"{rank}. Similitud: {sim:.4f} | [{cat}] {doc} — Art. {art} (pág. {pag}, id {rid})")
-        print(f"   {resumen}...\n")
+        print(f"   {resumen}\n")
 
 
 def main():
